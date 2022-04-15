@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+    {{ form_row(form.intitule) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.is_private) }}
+    {{ form_row(form.captchaCode) }}
+    <div style="text-align: center">
+        <button class="btn btn-primary">{{ button | default('Créer') }}</button>
+    </div>
+<br>
+{{ form_end(form) }}

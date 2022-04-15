@@ -1,0 +1,11 @@
+#connexionDiv{
+  background-color: white;
+  opacity: 0.85;
+  position: relative;
+}
+
+body{
+  background-image: url("../img/connexion_background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+}

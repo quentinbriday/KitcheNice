@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Voir cahier'%}
+
+{% block body %}
+    <div>
+        <div class="jumbotron text-center recherche_recette">
+            <h2 style="font-weight: bold">{{ cahier.intitule }}</h2>
+            {% if cahier.isPrivate %}<small><i>Ce cahier est privé</i></small>{% endif %}
+            <p>"{{ cahier.description|capitalize }}"</p>
+            <div style="display: inline-flex ">
+                {% if cahier.membre == app.user %}
+                    <a href="{{ path('cahier.edit', {'id': cahier.id}) }}" class="btn btn-warning" style="border-right: solid 3px black">Modifier</a>
+                    <form  method="post" action="{{ path('cahier.delete', {id: cahier.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre cahier ?')">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ cahier.id) }}">
+                        <button class="btn btn-danger">Supprimer</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            {% for recette in cahier.recettes %}
+                <p>{{ include('recette/_card2.html.twig', {recette: recette, cahier: cahier}) }} </p>
+            {% else %}
+                <p>Il n'y a pas de recette dans ce cahier...</p>
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}

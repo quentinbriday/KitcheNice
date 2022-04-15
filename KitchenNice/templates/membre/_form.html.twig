@@ -1,0 +1,42 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-md-5">
+        {{ form_row(form.mail) }}
+    </div>
+</div>
+<hr>
+<h4>Modifier le mot de passe </h4>
+<div class="row">
+    <div class="col-md-5">
+        <label for="pw3">Entrez votre ancien mot de passe</label>
+        <input type="password" name="pw3">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <label for="pw">Entrez votre nouveau mot de passe</label>
+        <input type="password" name="pw">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <label for="pw2">Confirmez votre nouveau mot de passe</label>
+        <input type="password" name="pw2">
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-5">
+        {{ form_row(form.types) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        {{ form_row(form.captchaCode) }}
+    </div>
+</div>
+<div style="text-align: center">
+    <button class="btn btn-primary">Modifier</button>
+</div>
+
+{{ form_end(form) }}

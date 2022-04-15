@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messages privés{% endblock %}
+
+{% block body %}
+    <div style="text-align: center; margin-top: 1em">
+        <a href="{{ path('conversation.new') }}" class="btn btn-primary">Créer une conversation</a>
+    </div>
+    <br>
+    {% for conversation in conversations %}
+        <div class="text-center login_form">
+            <h3 style="font-weight: bold"><a href="{{ path('conversation.show', {'id': conversation.id}) }}">{{ conversation.titre }}</a></h3>
+        </div>
+    {% else %}
+        <p>Vous n'avez aucune conversation démarée.</p>
+    {% endfor %}
+{% endblock %}

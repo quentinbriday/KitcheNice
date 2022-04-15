@@ -1,0 +1,31 @@
+#form
+{
+  border: solid 3px black;
+  background-color: #67BACA;
+}
+
+#titre
+{
+  border: solid 2px red;
+  background-color: red;
+}
+
+#titre:hover
+{
+  box-shadow: 5px 5px 4px 3px rgba(0,0,0,0.75);
+}
+
+.row{
+    border: solid 3px black;
+}
+
+img
+{
+  display: block;
+  width: 100%;
+}
+
+body
+{
+  background-color: #FDF6F6;
+}

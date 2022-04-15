@@ -1,0 +1,35 @@
+<page>
+    <h1 style="text-align: center"><u>{{ recette.titre }}</u></h1> <small> par {{ recette.membre.username }}</small>
+    <p><u>Durée préparation:</u> {{ recette.dureePreparation|date('H:i') }} <u>Durée cuisson:</u> {{ recette.dureeCuisson|date('H:i') }}
+        <u>Coût:</u> {{ recette.cout }} <u>Difficulté:</u> {{ recette.difficulte }} <u>Types:</u>
+        {% for type in recette.types %}
+            {{ type.type }}
+        {% endfor %}
+        </p><div><p>Ingrédients :</p><ul>
+            {% for quantite in recette.quantites %}
+                <li>{{ quantite.quantite }} {{ quantite.uniteMesure }} {{ quantite.ingredient.nom }}</li>
+            {% endfor %}
+            </ul></div>
+    {% if recette.ustensils is not empty %}
+        <div><p>Ustensils :</p><ul>
+                {% for ustensil in recette.ustensils %}
+                <li>{{ ustensil.nom }}</li>
+                {% endfor %}
+        </ul></div>
+    {% endif %}
+    {% if recette.allergenes is not empty %}
+        <div><p>Allergènes :</p><ul>
+                {% for allergene in recette.allergenes %}
+                    <li>{{ allergene.nom }}</li>
+                {% endfor %}
+            </ul></div>
+    {% endif %}
+    <div><p>Etapes :</p><ol>
+            {% for etape in recette.etapes %}
+                <li> {{ etape.description }} </li>
+            {% endfor %}
+    </ol></div>
+    {% if recette.remarque is not empty %}
+        <p>Remarques :</p><p>{{ recette.remarque }}</p>
+    {% endif %}
+</page>

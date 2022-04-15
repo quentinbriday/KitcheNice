@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Conversation' %}
+
+{% block body %}
+    <div>
+        <div class="jumbotron recherche_recette text-center">
+            <h3 style="font-weight: bold">{{ conversation.titre }}</h3>
+        </div>
+
+        {% for message in messages %}
+            <div class="{%  if message.envoyeur == app.user %}messenger-right{% else %}messenger-left{% endif %}">
+                <p>{{ message.contenu }}</p>
+                <small> envoyé le {{ message.dateCreation|date('d/m/Y') }}</small>
+            </div>
+            <br>
+        {% else %}
+            <p>Débutez la discussion ! </p>
+        {% endfor %}
+
+        <br>
+
+        {{ render(controller('App\\Controller\\ConversationController::addMessage', {id: conversation.id})) }}
+    </div>
+{% endblock %}
+

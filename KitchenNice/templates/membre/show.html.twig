@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Voir profil' %}
+
+{% block body %}
+    <div class="container mt-4">
+        {% for label, messages in app.flashes(['success', 'danger']) %}
+            {% for message in messages %}
+                <div class="flash-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <div class="row login_form">
+            <div class="col-md-11">
+                {% if is_granted("ROLE_USER") and user.id != membre.id %}
+                    {% if user.hasAbonnement(membre.username) %}
+                        <p>Vous êtes abonné à ce membre.</p>
+                    {% else %}
+                        <a href="{{ path('membre.ajout_abonnement', {'id': membre.id}) }}" class="btn btn-primary">S'abonner à l'utilisateur</a>
+                    {% endif %}
+                    {% if user.hasInvitationSend(membre.username) %}
+                        <p>Votre invitation en tant qu'ami est en attente de validation...</p>
+                    {% elseif user.hasAsFriend(membre.username) %}
+                        <p>Vous êtes ami avec ce membre.</p>
+                    {% elseif user.hasInvitationReceive(membre.username) %}
+                        <a href="{{ path('membre.valider_invitation', {'id': membre.invitationId(membre.username)}) }}" class="btn btn-success">Valider la demande d'ami</a>
+                    {% else %}
+                        <a href="{{ path('membre.ajouter_invitation', {'id': membre.id}) }}" class="btn btn-primary">Ajouter en ami</a>
+                    {% endif %}
+                {% endif %}
+                <h1 class="text-center" style="font-weight: bold">{{ membre.username }}</h1>
+                <h3 class="text-center" style="font-style: italic">{{ membre.mail }}</h3>
+                <h4>Recettes créées :</h4>
+                <ul>
+                    {% for recette in membre.recettes %}
+                        {% if recette.isPrivate%}
+                            {% if user.id == membre.id  %}
+                                <li><a href="{{ path('recette.show', {'id': recette.id}) }}">{{ recette.titre }}  🔒</a></li>
+                            {% endif %}
+                        {% else %}
+                            <li><a href="{{ path('recette.show', {'id': recette.id}) }}">{{ recette.titre }}</a></li>
+                        {% endif %}
+
+                    {% else %}
+                        {% if user.id != membre.id %}
+                            <p>Ce membre n'a pas encore créé de recette.</p>
+                        {% else %}
+                            <p>Vous n'avez pas encore créé de recettes... <a href="{{ path('recette.new') }}">Pourquoi ne pas en créer une ?</a> </p>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <h4>Cahiers créées :</h4>
+                <ul>
+                    {% for cahier in membre.cahiers %}
+                        {% if cahier.isPrivate%}
+                            {% if user.id == membre.id  %}
+                                <li><a href="{{ path('cahier.show', {'id': cahier.id}) }}">{{ cahier.intitule }} 🔒</a></li>
+                            {% endif %}
+                        {% else %}
+                            <li><a href="{{ path('cahier.show', {'id': cahier.id}) }}">{{ cahier.intitule }}</a></li>
+                        {% endif %}
+
+                    {% else %}
+                        {% if user.id != membre.id %}
+                            <p>Ce membre n'a pas encore créé de cahier.</p>
+                        {% else %}
+                            <p>Vous n'avez pas encore créé de cahier... <a href="{{ path('cahier.index') }}">Pourquoi ne pas en créer un ?</a> </p>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                {% if is_granted("ROLE_USER") and user.id == membre.id %}
+                    <h4>Vos abonnements :</h4>
+                    <ul>
+                        {% for abonnement in membre.abonnements %}
+                            <li>
+                                <a href="{{ path('membre.show', {'id': abonnement.id}) }}">{{ abonnement.username }}</a>
+                                <a href="{{ path('membre.supprimer_abonnement', {'id': abonnement.id}) }}" style="margin-left: 2em;" class="btn btn-danger">Se désabonner</a>
+                            </li>
+                        {% else %}
+                            <p>Vous n'avez aucun abonnement...</p>
+                        {% endfor %}
+                    </ul>
+                    <h4>Vos amis :</h4>
+                    {% if membre.validateInvitationDemandee or membre.validateInvitationRecue %}
+                        <ul>
+                            {% for invitation in membre.invitationDemandee %}
+                                {% if invitation.etat == 1 %}
+                                    <li>
+                                        <a href="{{ path('membre.show', {'id': invitation.membreReceveur.id}) }}">{{ invitation.membreReceveur.username }}</a>
+                                        <a href="{{ path('membre.refuser_invitation', {'id': invitation.id}) }}" style="margin-left: 2em;" class="btn btn-danger">Supprimer de mes amis</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% for invitation in membre.invitationRecue %}
+                                {% if invitation.etat == 1 %}
+                                    <li>
+                                        <a href="{{ path('membre.show', {'id': invitation.membreDemandeur.id}) }}">{{ invitation.membreDemandeur.username }}</a>
+                                        <a href="{{ path('membre.refuser_invitation', {'id': invitation.id}) }}" style="margin-left: 2em;" class="btn btn-danger">Supprimer de mes amis</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Vous n'avez pas d'ami...</p>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="text-center">Demandes envoyées :</h4>
+                            <ul>
+                            {% for invitation in membre.invitationDemandee %}
+                                {% if invitation.etat == 0 %}
+                                    <li>
+                                        <a href="{{ path('membre.show', {'id': invitation.membreReceveur.id}) }}">{{ invitation.membreReceveur.username }}</a>
+                                        <a href="{{ path('membre.retirer_invitation', {'id': invitation.id}) }}" style="margin-left: 2em;" class="btn btn-danger">Annuler</a>
+                                    </li>
+
+                                {% endif %}
+                            {% else %}
+                                <p>Aucune demande en attente...</p>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="text-center">Demandes reçues :</h4>
+                            <ul>
+                            {% for invitation in membre.invitationRecue %}
+                                {% if invitation.etat == 0 %}
+                                    <li>
+                                        <a href="{{ path('membre.show', {'id': invitation.membreDemandeur.id}) }}">{{ invitation.membreDemandeur.username }}</a>
+                                        <a href="{{ path('membre.valider_invitation', {'id': invitation.id}) }}" style="margin-left: 2em;" class="btn btn-primary">Accepter</a>
+                                        <a href="{{ path('membre.refuser_invitation', {'id': invitation.id}) }}" style="margin-left: 2em;" class="btn btn-danger">Refuser</a>
+                                    </li>
+                                {% endif %}
+                            {% else %}
+                                <p>Aucune demande reçue...</p>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

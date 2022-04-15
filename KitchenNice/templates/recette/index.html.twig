@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Recettes' %}
+
+{% block body %}
+    <div class="jumbotron recherche_recette">
+        <div class="container">
+            {{ form_start(form) }}
+            <div class="form-row align-items-end">
+                <div class="col">
+                    {{ form_row(form.titre) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.types) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.cout) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.difficulte) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.ingredients) }}
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <button class="btn btn-primary">Rechercher</button>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 container_background">
+                <h1 class="text-center">Les recettes</h1>
+                {% if is_granted("ROLE_USER") %}
+                    <div style="text-align: center">
+                        <a href="{{ path('recette.new') }}" class="btn btn-success">Ajouter une recette</a>
+                    </div>
+                {% endif %}
+                <div class="row" style="margin-top: 1em">
+                    {% for recette in recettes %}
+                        {{ include('recette/_card.html.twig', {recette: recette}) }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6/css/select2.min.css">
+{% endblock %}

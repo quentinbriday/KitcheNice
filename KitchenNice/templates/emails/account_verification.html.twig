@@ -1,0 +1,19 @@
+<html>
+    <body>
+        <section>
+            <column>
+
+                <text font-size="20px" color="#F45E43" font-family="helvetica">Bienvenue sur KitcheNice !</text>
+                <br>
+                <text font-size="15px" color="#F45E43" font-family="helvetica">Vous avez reçu ce mail après la création d'un compte sur le site de <a href="{{ url('home') }}">KitcheNice</a>. Afin de valider votre compte, veuillez cliquer <a href="{{ url('member.verify', {'mail': membre.mail, 'password': membre.password, 'pseudo': membre.username, 'token': csrf_token('verify' ~ membre.username)}) }}">ici</a> </text>
+                <br>
+                <text font-size="15px" color="#F45E43" font-family="helvetica">Si vous n'avez pas créé de compte sur KitcheNice, veuillez ignorer ce message et le supprimer.</text>
+                <br>
+                <text font-size="15px" color="#F45E43" font-family="helvetica">Cordialement,</text>
+                <br>
+                <text font-size="15px" color="#F45E43" font-family="helvetica">L'administrateur de KitcheNice.</text>
+
+            </column>
+        </section>
+    </body>
+</html>

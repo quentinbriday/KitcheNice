@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Ma Liste de courses' %}
+
+{% block body %}
+    <form action="{{ path('toPdf') }}" method="post">
+        <button type="submit" class="btn btn-primary">Télécharger en PDF</button>
+        <div class="pdf" style="margin-top: 1em; margin-left: 2em;">
+            {% for courses in liste %}
+                <div class="login_form col-md-4" style="border-right: 1px">
+                <h3>{{ courses.titre }} <a href="{{ path('listeCourse.remove_recette', {'id': courses.id}) }}" class="btn btn-danger" style="font-size: 10px;">X</a></h3>
+                {% for ingredient in courses.ingredient %}
+                    <p>- {{ ingredient }} <a href="{{ path('listeCourse.remove', {'id': courses.id, 'ingredient': ingredient}) }}" class="btn btn-danger" style="font-size: 10px;">-</a></p>
+                {% endfor %}
+                </div>
+                <div class="col-md-8"></div>
+                <hr>
+            {% else %}
+                <p>Votre liste de course est actuellement vide...</p>
+                <p>Pourquoi ne pas <a href="{{ path('recette.index') }}">lire les recettes de nos membres</a> afin de la remplir ?</p>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Télécharger en PDF</button>
+    </form>
+
+{% endblock %}

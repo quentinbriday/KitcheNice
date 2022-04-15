@@ -1,0 +1,192 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title 'Voir recette'%}
+
+{% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('cahier') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('courses') %}
+        <div class="alert alert-success">
+            {{ message }}
+            <form  method="post" action="{{ path('listeCourse.get') }}" style="display: inline-block">
+                <button class="btn btn-success">Voir ma liste de courses</button>
+            </form>
+        </div>
+    {% endfor %}
+    <div class="container mt-4 container_background">
+        {% if is_granted("ROLE_USER") %}
+            {{ render(controller('App\\Controller\\RecetteController::addCahier', {'id': recette.id})) }}
+        {% endif %}
+        <form  method="post" action="{{ path('recette.toPdf', {id: recette.id}) }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('pdf' ~ recette.id) }}">
+            <button class="btn btn-primary">Télécharger en PDF</button>
+        </form>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 fiche_recette">
+                <div class="row titre_recette">
+                    <div class="col-md-12">
+                        <h1 id="titre" class="text-center">{{ recette.titre|capitalize }}</h1>
+                        <small>...par <a href="{{ path('membre.show', {'id': recette.membre.id}) }}">{{ recette.membre.username }}</a></small>
+                    </div>
+                </div>
+                <div class="row presentation_recette" style="margin-top: 2em;">
+                    <div class="col-md-7">
+                        {% if recette.imageNom %}
+                            <img src="{{ vich_uploader_asset(recette, 'image_fichier') }}" alt="" class="photo_recette">
+                        {% else %}
+                            <img src="{{ asset('build/no_photo.jpg') }}" alt="" class="photo_recette">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-5">
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>Difficulté :</strong> {{ recette.difficulte }}</li>
+                            <li class="list-group-item"><strong>Coût :</strong> {{ recette.cout }}</li>
+                            <li class="list-group-item"><strong>Durée de préparation :</strong> {{ recette.dureePreparation|date('H:i') }}</li>
+                            <li class="list-group-item"><strong>Durée de cuisson :</strong> {{ recette.dureeCuisson|date('H:i') }}</li>
+                            <li class="list-group-item"><strong><p>{% for type in recette.types %}
+                                            {{ type.type|capitalize }} {% if loop.last == false %}/{% endif %}
+                                        {% endfor %}</p></strong></li>
+                        </ul>
+                        <div class="center" style="width: 150px;margin: 40px auto;">
+                            <p>
+                                Pour :
+                            <p>
+                            </p><div class="input-group">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-danger btn-number increment_minus"  data-type="minus" data-field="quant[2]">
+                                  <span class="glyphicon glyphicon-minus">-</span>
+                                </button>
+                            </span>
+                                <input class="nb_personne_original" type="hidden" value="{{ recette.nbPersonnes }}">
+                                <input type="text" name="quant[2]" class="form-control input-number nb_personne" value="{{ recette.nbPersonnes }}" min="1" max="100">
+                                <span class="input-group-btn">
+                                <button type="button" class="btn btn-success btn-number increment_plus" data-type="plus" data-field="quant[2]">
+                                    <span class="glyphicon glyphicon-plus">+</span>
+                                </button>
+                            </span>
+                            </div>
+                            <p> personne(s)</p>
+                        </div>
+                    </div>
+                </div>
+                <!--
+                <div class="row nb_personne_recette">
+                    <div class="col-md-12 text-center">
+                        <input class="nb_personne_original" type="hidden" value="{{ recette.nbPersonnes }}">
+                        <h6>Pour </h6><button class="increment_minus">-</button><input class="nb_personne" type="text" size="4" value="{{ recette.nbPersonnes }}"><button class="increment_plus">+</button><h6> personne(s)...</h6>
+                    </div>
+                </div> -->
+                <div class="row text-center" id="quantite_base" style="margin-top: 2em">
+                    <div class="col-md-5 ingredients_recette div_ingredient">
+                        <div>
+                            <h5>Ingrédients :</h5>
+                        </div>
+                        <form id="form_liste_courses" method="post" action="{{ path('listeCourse.set', {'id': recette.id}) }}">
+                            <ul>
+                                {% for quantite in recette.quantites %}
+                                    <div class="row">
+                                        <input class="quantite_originale" type="hidden" value="{{ quantite.quantite }}">
+                                        <div id="test_div" class="col-md-12"><li><span class="quantite">{{ quantite.quantite }}</span> {{ quantite.uniteMesure }}{% if quantite.uniteMesure is not null %} de {% endif %} {{ quantite.ingredient.nom }}</li></div>
+                                    </div>
+                                {% endfor %}
+                            </ul>
+                            {% if user is not empty %}
+                                <div class="row">
+                                    <div id="invisible_input" class="col-md-12">
+                                        <input name="_titre" type="hidden" value="{{ recette.titre }}">
+                                        <button id="liste_course" class="btn btn-primary">Ajouter à la liste de courses</button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </form>
+                    </div>
+                    <div class="col-2"></div>
+                    <div class="col-md-5 text-center div_show_recette">
+                        <div class="row ustensils-recette">
+                            <div class="col-md-12">
+                                <h5 class="">Ustensil(s) :</h5>
+                            </div>
+                            <div class="col-md-12">
+                                {% for ustensil in recette.ustensils %}
+                                    {{ ustensil.nom|capitalize }}
+                                {% else %}
+                                    <p>Pas d'ustensils listés pour cette recette.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="row allergenes_recette">
+                            <div class="col-md-12">
+                                <h5>Allergène(s) :</h5>
+                            </div>
+                            <div class="col-md-12">
+                                {% for allergene in recette.allergenes %}
+                                    {{ allergene.nom|capitalize }}
+                                {% else %}
+                                    <p>Cette recette n'a pas d'allergènes listés.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row etapes_recette div_etapes text-center">
+                    <div class="col-md-12">
+                        <h4>Etapes de la recette :</h4>
+                    </div>
+                    <div class="row">
+                    {% for etape in recette.etapes %}
+
+                            <div class="col-md-1"><p>{{ etape.numero }}</p></div>
+                            <div class="col-md-11"><p>{{ etape.description }}</p></div>
+                    {% endfor %}
+                    </div>
+                </div>
+
+                <div class="row remarque_recette div_remarque text-center">
+                    <div class="col-md-12">
+                        <h5>Remarque :</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" style="text-align: center">
+                            <p>{{ recette.remarque }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        {% if recette.isPrivate %}
+                            <p>Cette recette est privée.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if recette.membre == user %}
+                    <a href="{{ path('recette.edit', {id: recette.id}) }}" class="btn btn-warning">Modifier</a>
+                    <form  method="post" action="{{ path('recette.delete', {id: recette.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre recette ?')">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recette.id) }}">
+                        <button class="btn btn-danger">Supprimer</button>
+                    </form>
+                {% endif %}
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+
+    </div>
+{% endblock %}
+
+

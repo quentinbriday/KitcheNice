@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modifier profil' %}
+{% block body %}
+    <div class="container mt-4">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('danger') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col-md-10 login_form">
+                <h3 class="text-center">Modifier mon profil</h3>
+                {{ include ('membre/_form.html.twig', {form: form})}}
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6/css/select2.min.css">
+{% endblock %}

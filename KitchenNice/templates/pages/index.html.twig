@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'KitcheNice' %}
+
+{% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="jumbotron accueil_titre">
+        <h3 class="text-center">Bienvenue sur KitcheNice !</h3>
+    </div>
+
+    <div class="container mt-4">
+
+        {% if is_granted("ROLE_USER") %}
+            {% if types_abonne is not empty %}
+                <div class="login_form">
+                <h4 class="text-center">Nouvelles recettes de vos types préférés :</h4>
+                {% for type in types_abonne %}
+                    <h5 style="font-weight: bold">Les dernières recettes "{{ type.type }}" :</h5>
+                    <div class="row">
+                        {% for recette in type.getRecette|slice(0,3) %}
+                            {% if recette.isPrivate == false %}
+                                <p>{{ include('recette/_card.html.twig', {recette: recette}) }} </p>
+                            {% endif %}
+                        {% else %}
+                            <p>Pas de nouvelles recettes en {{ type.type }}.</p>
+                        {% endfor %}
+                    </div>
+                    <br>
+                {% endfor %}
+            {% else %}
+                <div class="login_form">
+                    <h3>Ajoutez vos types préférés dans votre profil afin de voir les dernières recettes de ces types !</h3>
+                </div>
+            {% endif %}
+                </div>
+            <br>
+                {% if abonnements is not empty %}
+                    <div class="login_form">
+                    <h4 class="text-center">Vos abonnements :</h4>
+                    {% for abonnement in abonnements %}
+                        <h5 style="font-weight: bold">Les dernières recettes de {{ abonnement.username }} :</h5>
+                        <div class="row">
+                            {% for recette in abonnement.getRecettes|slice(0,3) %}
+                                {% if recette.isPrivate == false %}
+                                    <p>{{ include('recette/_card.html.twig', {recette: recette}) }} </p>
+                                {% endif %}
+                            {% else %}
+                                <p>Pas de nouvelles recettes pour ce membre.</p>
+                            {% endfor %}
+                        </div>
+                        <br>
+                    {% endfor %}
+                {% else %}
+                    <div class="login_form">
+                        <h3>Abonnez-vous à d'autres membres pour voir leurs dernières recettes !</h3>
+                    </div>
+                    </div>
+                {% endif %}
+
+
+        {% else%}
+            <div class="col-md-12">
+                <div class="row">
+                    {% for recette in recettes|slice(0,20) %}
+                        <p>{{ include('recette/_card.html.twig', {recette: recette}) }} </p>
+                    {% else %}
+                        <p>Pas de nouvelles recettes.</p>
+                    {% endfor %}
+                </div>
+                <br>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,101 @@
+{% import _self as formMacro %}
+{{ form_start(form) }}
+
+{% macro formQuantite(qte) %}
+    <div class="row">
+        <div class='col-md-3'>{{ form_row(qte.quantite, {'attr': {'placeholder': 'qté'} }) }}</div>
+        <div class='col-md-2'>{{ form_row(qte.unite_mesure, {'attr': {'placeholder': 'gr/cl'} }) }}</div>
+        <div class='col-md-5'>{{ form_row(qte.ingredient) }}</div>
+    </div>
+   {% endmacro %}
+
+{% macro formEtape(etape) %}
+    <div class="row">
+        <div class="col-md-10">{{ form_row(etape.description) }}</div>
+    </div>
+{% endmacro %}
+
+<div class="row" style="margin-top: 1em;">
+    <div class="col-md-12">
+        {{ form_row(form.titre, {'attr': {'placeholder': 'Titre de votre recette'} }) }}
+    </div>
+</div>
+<div class="row presentation_recette">
+    <div class="col-md-7 photo_recette">
+        {{ form_row(form.imageFichier) }}
+    </div>
+    <div class="col-md-5">
+        {{ form_row(form.difficulte) }}
+        {{ form_row(form.cout) }}
+        {{ form_row(form.duree_preparation) }}
+        {{ form_row(form.duree_cuisson) }}
+        {{ form_row(form.types) }}
+    </div>
+</div>
+<div class="row nb_personne_recette_2">
+    <div class="col-md-12">
+        {{ form_row(form.nb_personnes, {'attr': {'placeholder': 'Nombre de personne'} }) }}
+    </div>
+</div>
+<div class="row text-center" id="quantite_base">
+    <div class="col-md-7 ingredients_recette">
+        <div>
+            <h5>Ingrédients :</h5>
+        </div>
+        <div id="quantite" data-prototype="{{ formMacro.formQuantite(form.quantites.vars.prototype)|e('html_attr') }}">
+            {% for quantite in form.quantites %}
+                {{ formMacro.formQuantite(quantite) }}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="row ustensils-recette">
+            <div class="col-md-12">
+                <h5>{{ form_label(form.ustensils) }}</h5>
+                {{ form_widget(form.ustensils) }}
+            </div>
+        </div>
+        <div class="row allergenes_recette">
+            <div class="col-md-12">
+                <h5>{{ form_label(form.allergenes) }}</h5>
+                {{ form_widget(form.allergenes) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="etapes_recette">
+    <h4 class="text-center">Etapes de la recette :</h4>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10" id="etape" data-prototype="{{ formMacro.formEtape(form.etapes.vars.prototype)|e('html_attr') }}">
+        {% for etape in form.etapes %}
+            {{ formMacro.formEtape(etape) }}
+        {% endfor %}
+    </div>
+</div>
+
+<br>
+
+<div class="row remarque_recette text-center">
+    <div class="col-md-12">
+        <h5>{{ form_label(form.remarque) }}</h5>
+        {{ form_widget(form.remarque, {'attr': {'placeholder': 'Une chose à ajouter ?'} }) }}
+    </div>
+</div>
+<br>
+<div class="row" style="margin-left: 1em;">
+    <div class="col-md-12">
+        {{ form_row(form.is_private) }}
+    </div>
+</div>
+<div class="row" style="margin-left: 1em;">
+    {{ form_row(form.captchaCode) }}
+</div>
+
+<button class="btn btn-primary">{{ button | default('Créer') }}</button>
+<a href="{{ path('recette.index') }}" class="btn btn-secondary">Retour</a>
+
+{{ form_end(form) }}

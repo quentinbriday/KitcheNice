@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Créez un compte' %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="login_form">
+            <h3 class="text-center">Créer un compte</h3>
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-4">
+                    {{ form_row(form.username) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    {{ form_row(form.mail) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    {{ form_row(form.password) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    {{ form_row(form.captchaCode) }}
+                </div>
+            </div>
+            <div style="text-align: center">
+                <button class="btn btn-primary">Créer mon compte</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

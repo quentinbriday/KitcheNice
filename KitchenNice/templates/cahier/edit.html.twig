@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modifier cahier'%}
+
+{% block body %}
+    <div class="container mt-4 login_form">
+        {{ include('cahier/_form.html.twig', {form: form, button: 'Modifier'}) }}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes cahiers{% endblock %}
+
+{% block body %}
+    {% for label, messages in app.flashes(['success', 'danger']) %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    <div class="container mt-4">
+        <div style="text-align: center">
+            {{ render(path('cahier.new')) }}
+        </div>
+        <div class="row">
+            {% for cahier in cahiers %}
+                <div class="login_form" style="margin: 1em; padding: 1em;">
+                    <p><a href="{{ path('cahier.show', {'id': cahier.id}) }}">{{ cahier.intitule }}</a>{% if cahier.isPrivate %}🔒{% endif %}</p>
+                    <p><i>{{ cahier.recettes|length }} {% if cahier.recettes|length > 1 %}recettes{% else %}recette{% endif %}</i></p>
+                    <p>{{ cahier.description | truncate(20, true) }}</p>
+                </div>
+            {% else %}
+                <p>Vous n'avez aucun cahier.</p>
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+{% endblock %}

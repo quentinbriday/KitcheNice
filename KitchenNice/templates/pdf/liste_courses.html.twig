@@ -1,0 +1,29 @@
+<style type="text/css">
+    h1{
+        text-align: center;
+    }
+    input
+    {
+        font-size: 50px;
+        display: inline;
+    }
+
+</style>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Liste de courses</title>
+</head>
+<body>
+    <h1><u>Liste de courses du {{ date_ajd }}</u></h1>
+    {% for course in courses %}
+        <h2><i>{{ course.titre }}</i></h2>
+        {% for ingredient in course.ingredient %}
+            <div class="line"><h3>- {{ ingredient }} <input onclick="myFunction()" type="checkbox"></h3></div>
+        {% endfor %}
+        <hr>
+    {% endfor %}
+</body>
+</html>

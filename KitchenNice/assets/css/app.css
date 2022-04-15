@@ -1,0 +1,239 @@
+body {
+    background: url("../images/recettes/potage_vert.jpeg") no-repeat center center fixed;
+    background-size: cover;
+}
+
+nav {
+    background-image: linear-gradient(to top left, #45145A, #FF5300);
+}
+
+nav a{
+    #background-color: darkorange;
+    #border-radius: 50% 20% / 10% 40%;
+    #color: white;
+    #border: 1px solid black;
+}
+
+.design{
+    #background-color: darkorange;
+    #border-radius: 50% 20% / 10% 40%;
+    color: white;
+    #border: 1px solid black;
+}
+
+nav a:hover{
+    #background-color: #ef7f00;
+    #color: white;
+    #font-weight: bold;
+    #box-shadow: 10px 5px 5px black;
+}
+
+nav .a_creation{
+    #border: 1px solid black;
+    #padding: 10px;
+    #border-radius: 50%;
+}
+
+nav .a_creation:hover{
+    #font-weight: bold;
+}
+
+nav .a_connexion{
+    #border: 1px solid black;
+    #padding: 10px;
+    #border-radius: 50%;
+}
+
+.navbar-toggler{
+    border: 1px white solid;
+}
+
+.navbar-toggler-icon{
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+nav .a_connexion:hover{
+
+}
+
+.fiche_recette{
+    #border: solid black;
+    #border-width: 8px 8px 2px 2px;
+}
+
+.titre_recette{
+    #background-color: red;
+    border-bottom: solid darkgray 1px;
+    font-family: 'Pacifico', cursive;
+}
+.titre_recette small{
+    position: absolute;
+    bottom: 0;
+    right: 0.5em;
+}
+
+.presentation_recette{
+    #border-bottom: solid darkgray 1px;
+}
+
+.photo_recette{
+    border-right: solid black 1px;
+    width: 100%;
+    height: 100%;
+}
+
+.nb_personne_recette{
+    #border-bottom: dashed darkgray 1px;
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
+}
+
+.nb_personne_recette *{
+    display: inline;
+    font-size: 1.2em;
+    font-family: 'Permanent Marker', cursive;
+}
+
+.nb_personne_recette_2{
+    #border-bottom: dashed darkgray 1px;
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
+    font-family: 'Permanent Marker', cursive;
+}
+
+.increment_minus{
+    #background-color: chocolate;
+    #padding: 0.2em 0.1em 0.2em 0.1em;
+    #border-top-left-radius: 5px;
+    #border-bottom-left-radius: 5px;
+}
+
+.increment_plus{
+    #background-color: chocolate;
+    #padding: 0.2em 0.1em 0.2em 0.1em;
+    #border-top-right-radius: 5px;
+    #border-bottom-right-radius: 5px;
+}
+
+#quantite_base{
+    #border-bottom: solid darkgray 1px;
+}
+
+.ingredients_recette{
+    border-right: solid black 1px;
+    padding-top: 0.6em;
+}
+
+.ingredients_recette h5{
+    font-family: 'Gochi Hand', cursive;
+}
+
+.ustensils-recette{
+    border-bottom: dashed darkgray 1px;
+    padding: 0.6em 0 0.6em 0;
+}
+
+.ustensils-recette h5{
+    font-family: 'Gochi Hand', cursive;
+}
+
+.allergenes_recette{
+    padding: 0.6em 0 0.6em 0;
+}
+
+.allergenes_recette h5{
+    font-family: 'Gochi Hand', cursive;
+}
+
+.etapes_recette{
+    #border-bottom: solid darkgray 1px;
+    margin-top: 0.6em;
+}
+
+.etapes_recette h4{
+    font-family: 'Permanent Marker', cursive;
+}
+
+.remarque_recette{
+    border-top: solid darkgray 1px;
+    padding-top: 0.6em;
+}
+
+.remarque_recette h5{
+    font-family: 'Permanent Marker', cursive;
+}
+
+.remarque_recette.row{
+    #margin-left: 0.1em;
+}
+
+.recherche_recette{
+    background-color: rgba(245, 126, 0, 0.5);
+}
+
+.accueil_titre {
+    background-color: rgba(245, 126, 0, 0.5);
+}
+
+.accueil_titre h3{
+    color: white;
+    font-weight: bold;
+    background-color: saddlebrown;
+    border-radius: 3em;
+}
+
+.container_background{
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.div_ingredient{
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.div_show_recette{
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.div_etapes{
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 2em;
+}
+
+.div_remarque{
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 2em;
+}
+
+.carousel-inner img {
+    width: 75%;
+    height: 10em;
+}
+
+.login_form {
+    background-color: rgba(230, 230, 230, 0.7);
+    border-radius: 5px;
+}
+
+.messenger-right{
+    background-color: rgba(230, 230, 230, 0.7);
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-left: 65%;
+    #text-align: right;
+    display: inline-block;
+    padding: 5px;
+    max-width: 400px;
+}
+
+.messenger-left{
+    background-color: rgba(230, 230, 230, 0.7);
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-left: 27%;
+    display: inline-block;
+    max-width: 400px;
+}

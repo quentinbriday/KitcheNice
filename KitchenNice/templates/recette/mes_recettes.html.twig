@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Mes recettes'%}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 container_background">
+                <h1 class="text-center">Mes recettes</h1>
+                {% if is_granted("ROLE_USER") %}
+                    <div style="text-align: center">
+                        <a href="{{ path('recette.new') }}" class="btn btn-success">Ajouter une recette</a>
+                    </div>
+                {% endif %}
+                <div class="row" style="margin-top: 1em">
+                    {% for recette in recettes %}
+                        {{ include('recette/_card.html.twig', {recette: recette}) }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+{% endblock %}
+

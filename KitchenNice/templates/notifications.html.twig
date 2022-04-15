@@ -1,0 +1,39 @@
+<a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#!" id="navbarDropdownNotif" class="nav-link dropdown-toggle btn btn-primary">Notifications <span id="notificationCount" class="badge badge-light">{{ mgilet_notification_unseen_count(app.user) }}</span></a>
+<div id="notification-menu" class="dropdown-menu dropdown-menu-right notification-menu collapse" aria-labelledby="navbarDropdownNotif">
+<ul class="well no-padding list-unstyled">
+    <li class="text-center">
+        <a cl id="notification-MarkAllAsSeen" href="{{ mgilet_notification_generate_path('notification_mark_all_as_seen', app.user) }}" class="no-margin btn btn-secondary btn-xs pull-right">{{ 'mark_all_as_seen'|trans({},'MgiletNotificationBundle') }}</a>
+    </li>
+    <hr class="no-margin">
+    <div class="scrollable-menu">
+        <div class="list-group no-margin">
+            {% for item in notificationList %}
+                <li class="list-group-item notification">
+                    {% if item.seen %}
+                        <div class="row-content seen">
+                            <span class="seen_logo">✅</span>
+                    {% else %}
+                        <div class="row-content">
+                        <a href="{{ mgilet_notification_generate_path('notification_mark_as_seen', item.notifiableEntity, item.notification) }}" class="ajax-notification action-secondary text-muted btn btn-xs">x</a>
+                    {% endif %}
+                    <a href="{{ item.notification.link }}">
+                        <h5><b>{{ item.notification.subject }}</b></h5>
+                        <p class="list-group-item-text">{{ item.notification.message }}</p>
+                        <small class="list-group-item-text">{{ item.notification.date|date('H:m:s - d/m/Y') }}</small>
+                    </a>
+                    </div>
+                </li>
+            {% endfor %}
+        </div>
+        {% if notificationList|length < 1 %}
+            <div class="well-lg text-muted text-center">
+                <b>{{ 'no_new_notification'|trans({},'MgiletNotificationBundle') }}</b>
+            </div>
+        {% endif %}
+    </div>
+    <li class="text-center">
+        <hr class="no-margin">
+        <a class="no-margin btn btn-sm btn-block" href="{{ mgilet_notification_generate_path('notification_list', app.user) }}">{{ 'all_notifications'|trans({},'MgiletNotificationBundle') }}</a>
+    </li>
+</ul>
+</div>

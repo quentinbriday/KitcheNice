@@ -1,0 +1,22 @@
+<div class="col-md-4">
+    <div class="card">
+        <h5 class="card-header text-center">
+            <a href="{{ path('recette.show', {id: recette.id}) }}">{{ recette.titre|capitalize|truncate(15, false) }}</a>
+        </h5>
+        <div class="card-body">
+            {% if recette.imageNom %}
+                <img src="{{ vich_uploader_asset(recette, 'image_fichier') | imagine_filter('thumb') }}" alt="" style="width: 100%; height: auto">
+            {% else %}
+                <img src="{{ asset('build/no_photo.jpg') | imagine_filter('thumb') }}" alt="" style="width: 100%; height: auto">
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <p>{{ recette.quantitesToString|truncate(30, true) }}</p>
+            <p>Type : {% for type in recette.types %}{{ type.type }}/{% endfor %}</p>
+            <p>Difficulté : {{ recette.difficulte }}</p>
+            <p>Coût : {{ recette.cout }}</p>
+            <p>Allergènes : {% for allergene in recette.allergenes %}{{ allergene.nom }} / {% else %}Aucun allergène noté pour cette recette{% endfor %}</p>
+        </div>
+        <a href="{{ path('cahier.remove_recette', {'cahierId': cahier.id, 'recetteId': recette.id}) }}" class="btn btn-danger">Supprimer du cahier</a>
+    </div>
+</div>

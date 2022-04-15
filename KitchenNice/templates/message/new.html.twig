@@ -1,0 +1,17 @@
+<div>
+    <form action="{{ path('conversation.addMessage', {'id': id}) }}" method="post">
+        {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    {{ form_row(form.contenu) }}
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+
+        <div style="text-align: center">
+            <button class="btn btn-primary">Envoyer</button>
+        </div>
+        {{ form_end(form) }}
+    </form>
+</div>

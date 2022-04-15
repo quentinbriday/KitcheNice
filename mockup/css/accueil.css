@@ -1,0 +1,49 @@
+#carousel-top{
+  padding-bottom: 40px;
+  border-bottom: black 1px solid;
+}
+
+#recette_card:hover{
+  box-shadow: 10px 10px 9px 7px rgba(0,0,0,0.75);
+}
+
+body{
+  background-color: #FDF6F6;
+}
+
+h3{
+  background-color: #FE0000;
+}
+
+.card-header{
+  background-color: #67BACA;
+}
+
+.card-footer{
+  background-color: #B3DBC0;
+}
+
+/* unvisited link */
+a:link {
+ color: black;
+}
+
+/* visited link */
+a:visited {
+ color: black;
+}
+
+/* mouse over link */
+a:hover {
+ color: black;
+}
+
+/* selected link */
+a:active {
+ color: black;
+}
+
+img{
+  display: block;
+  width: 100%;
+}
